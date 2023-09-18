@@ -1,27 +1,16 @@
-# CheverJohn's website
+# Fourth Generation Website Deployment Plan
 
-"I have the Chinese version, which you can find at this [URL](./README-zh.md)."
+My fourth-generation website was a result of my impulsive decision. In 2022, I used HTML, CSS, and JS technologies to build the website, purely out of frustration. Currently, the website has been archived in a [subdirectory](https://github.com/Chever-John/cheverjohn.me/tree/main/old-website-styles).
 
-## Background
+Now, let's talk about my overall deployment strategy.
 
-Those familiar with me know that I have many personal websites. Still, the longest one is the last one I built with docusaurus (<https://www.cheverjohn.xyz/>), which lasted for more than six months. I think I still like to output some textual things. I want to share what I've learned, keep communicating with others, and learn about miscellaneous items that are not limited to technology. So this is the **initial idea** for creating my website.
+We won't discuss purchasing a server and domain name. Instead, let's focus on the deployment options. I will introduce three deployment options: Nginx + server deployment, Docker containerization deployment, and Apisix + server deployment.
 
-## Personal Official Website History Museum
+## First: NGINX Configuration
 
-In addition, to build a personal website, I went through roughly this technical route.
+Buy server and install Nginx.
 
-| Timeline | Domains | Tech stack | Descriptions |
-| ------- | --------- | ------ | -------- |
-| 2020.02-2020.06 | mr8god.cn | hexo/Travis ci/GitHub action  | Writing some technical articles and understanding the importance of tools such as CI. |
-| 2020.07 ～ 2021.06 | mr8god.cn | Python / Django / Supervisor / CICD / Vue | This is a very holistic project, I did **front and back-end separation**, **CICD**, **blog community system,** and many other interesting things. |
-| 2021.10 ～ 2022.06 | cheverjohn.xyz | Docusaurus / React /vercel | This is an open source project from **meta** **Docusaurus**, generally used by the open source community as a little more documentation site, personal use for blogging I also think quite enough, but I still like to define their own format a little more, even if I have a different format for each blog. |
-| 2022.07.17 ～ now | cheverjohn.me | Html / nginx / js / query | Get ready for the big game! |
-
-Anyway, I have high hopes for the latest blog, someone always needs to toss a little bah~
-
-## Deployment Method
-
-### First Method: NGINX Configuration
+Accommodation: ★★
 
 Use **NGINX** as a reverse proxy server to reverse proxy the route to index.html and that's it. You can refer to this [link](https://www.vultr.com/zh/docs/how-to-install-and-configure-nginx-on-a-vultr-cloud-server/#:~:text=Encrypt%20guide%20here.-,Configure%20Nginx%20as%20a%20Reverse%20Proxy,-Nginx%20can%20work)for more information.
 
@@ -54,9 +43,46 @@ server {
 }
 ```
 
-### Second Method: API Gateway Deployment(Simple description of the method)
+## Second: Docker
 
-#### Write the Dockerfile of static file
+Install docker.
+
+Accommodation: ★★★★
+
+这其实是我最推荐的，如果你刚刚在一个新的环境里去部署网站，那就无疑用这个方法，先顶上，后边再慢慢添加新的骚操作功能。
+
+### Steps
+
+Some steps.
+
+#### Step1: create Dockerfile
+
+File content as following:
+
+```dockerfile
+FROM nginx:alpine
+COPY ./static /usr/share/nginx/html
+```
+
+#### Step2: build image
+
+Command as following:
+
+```bash
+docker build -t html-server-image:v1 .
+```
+
+Run it:
+
+```bash
+docker run -d -p 80:80 html-server-image:v1
+```
+
+## Third: API Gateway Deployment(Simple description of the method)
+
+Accommodation: ★★★★
+
+### Write the Dockerfile of static file
 
 The content of Dockerfile as follows:
 
@@ -101,7 +127,7 @@ What I can guarantee is that I can complete the deployment of the site according
 
 #### Deployment architecture diagram of my personal website
 
-![myPersonalWebsiteArch2](assets/excalidraw/myPersonalWebsiteArch3.png)
+![myPersonalWebsiteArch2](/Users/cheverjohn/Workspace/Opensource/github.com/Chever-John/cheverjohn.me/assets/excalidraw/myPersonalWebsiteArch3.png)
 
 To briefly introduce in words, this time I tried to use Apache APISIX cloud-native gateway to deploy my personal website. Here Apache APISIX, Apache Dashboard, etcd, and html-server are all containers for Docker images to run. Among them, html-server is my own custom-created mirror container. The way to build it can be seen above.
 
@@ -172,7 +198,7 @@ Since I need to change the default service port of the APISIX gateway from `9080
 
 The intermediate changes are shown in the figure below.
 
-![9080to80](./assets/ScreenCut/9080to80.png)
+![9080to80](/Users/cheverjohn/Workspace/Opensource/github.com/Chever-John/cheverjohn.me/assets/ScreenCut/9080to80.png)
 
 As you can see, the original `9080:9080` is changed to `80:9080`, that's all.
 
@@ -186,7 +212,7 @@ docker-compose -p docker-apisix up -d
 
 This requires additional configuration and requires modifying the `apisix-docker/example/dashboard_conf/conf.yaml` file. Refer to the following figure for the specific changes.
 
-![enableGrafana](./assets/ScreenCut/enableGrafana.png)
+![enableGrafana](/Users/cheverjohn/Workspace/Opensource/github.com/Chever-John/cheverjohn.me/assets/ScreenCut/enableGrafana.png)
 
 Then everything is OK.
 
@@ -286,31 +312,3 @@ docker-compose -p website down
 ```
 
 Then you can repeat the second step.
-
-## TODO
-
-### Cloud-Native
-
-- [x] Docker Deployment: Packaging the front-end project and deploying it as a Docker image.
-- [ ] Try cluster deployment based on the completion of the front-end tasks.
-
-#### API Gateway Selection
-
-- [x] Explore the feasibility of and need for API gateways.
-
-### Font-end
-
-- [ ] Unify the html style of the blog.
-- [x] Go ~~ pit ~~ Kun Kun, let Kun Kun help me to get the front-end style architecture.
-
-### O&M
-
-#### CI/CD
-
-- [ ] Get the auto-deployment right, with the specific requirement that my deployment server will automatically pull the code as soon as I submit the local code;
-  - [ ] Conduct CI tool selection;
-  - [ ] Implemented on a cloud-based server.
-
-#### Grayscale Release / Canary Release
-
-- [ ] As the subheading, to do a good **grayscale release** with Nginx.
