@@ -6,3 +6,5 @@ description: "Hello, I am Chever."
 ---
 
 Hello!
+
+I am Chever, a software engineer.
