@@ -4,10 +4,10 @@ test("index page renders", async ({ page }) => {
   await page.goto("/");
 
   // Intro bio
-  const bio = await page.locator("text=Hey, I'm Andrew Healey");
+  const bio = await page.locator("text=Hi, I am Chenwei Jiang(Chever John).");
   expect(await bio.isVisible()).toBe(true);
 
   // Bio image
-  const bioImage = await page.locator('[alt="Andrew Healey."]');
+  const bioImage = await page.locator('[alt="Chever John."]');
   expect(await bioImage.isVisible()).toBe(true);
 });

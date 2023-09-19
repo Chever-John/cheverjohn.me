@@ -8,10 +8,10 @@ test("rss feed is returned", async ({ page, request }) => {
     const text = await (await request.get('/feed.xml')).text()
 
     // Check an item exists with a snapshot of expected data
-    expect(text).toContain(`<title>Andrew Healey's Blog</title>`)
-    expect(text).toContain(`<title><![CDATA[Profiling and Optimizing an Interpreter]]></title>`)
-    expect(text).toContain(`<guid>https://healeycodes.com/profiling-and-optimizing-an-interpreter</guid>`)
-    expect(text).toContain(`<pubDate>Thu, 19 Jan 2023 00:00:00 GMT</pubDate>`)
-    expect(text).toContain(`<description><![CDATA[Rewriting library code to speed up my interpreter benchmark by 28%.]]></description>`)
-    expect(text).toContain(`<author>healeycodes@gmail.com (Andrew Healey)</author>`)
+    expect(text).toContain(`<title>Chever John's Blog</title>`)
+    expect(text).toContain(`<title><![CDATA[How to run go plugin runner with Apisix-Ingress-controller]]></title>`)
+    expect(text).toContain(`<guid>https://blog.cheverjohn.me/how-to-run-go-plugin-runner-in-apisix-ingress</guid>`)
+    expect(text).toContain(`<pubDate>Fri, 29 Apr 2022 00:00:00 GMT</pubDate>`)
+    expect(text).toContain(`<description><![CDATA[While wandering around the community......]]></description>`)
+    expect(text).toContain(`<author>cheverjonathan@gmail.com (Chenwei Jiang)</author>`)
 });

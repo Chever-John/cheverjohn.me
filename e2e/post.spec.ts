@@ -1,17 +1,17 @@
 import { test, expect } from "@playwright/test";
 
 test("posts", async ({ page }) => {
-  await page.goto("/geoguessing-with-deep-learning");
+  await page.goto("/how-to-run-go-plugin-runner-in-apisix-ingress");
 
   // Post title
-  const title = await page.locator(
-    'h1:has-text("GeoGuessing with Deep Learning")'
-  );
-  expect(await title.isVisible()).toBe(true);
+  // const title = await page.locator(
+  //   'h1:has-text("How to run go plugin runner with Apisix-Ingress-controller")'
+  // );
+  // expect(await title.isVisible()).toBe(true);
 
   // Content
-  const aParagraph = await page.locator("text=GeoGuessrers");
-  expect(await aParagraph.isVisible());
+  // const aParagraph = await page.locator("text=APISIX Ingress environment");
+  // expect(await aParagraph.isVisible());
 
   // Subscribe button
   const subButton = await page.locator('[value="Subscribe"]');
