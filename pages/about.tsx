@@ -25,10 +25,7 @@ export default function About() {
             style={{ borderRadius: "0.4em" }}
           />
           <p className="avatar-text">
-            Hi, I am Chenwei Jiang(Chever John). I am a software engineer and
-            currently work for SHEIN with both challenges and potential and
-            build distributed cloud-native architecture for them.
-          </p>
+          Hey, I'm Chenwei Jiang, the SHEIN superhero! I'm a cloud-surfing software engineer, conquering challenges and unlocking the true potential of cloud computing.          </p>
         </div>
         <div className="about-section">
           {/* <p>
