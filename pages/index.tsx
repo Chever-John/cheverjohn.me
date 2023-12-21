@@ -52,7 +52,7 @@ export default function Home({ allPostsData, description, words }) {
             width={140}
             height={140}
             src={meAvatar}
-            alt="Chever John."
+            alt="Chever John"
             quality={100}
             placeholder="blur"
             priority={true}
